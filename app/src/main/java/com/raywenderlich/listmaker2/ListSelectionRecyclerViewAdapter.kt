@@ -26,6 +26,6 @@ fun addList(list:TaskList){
 
     override fun onBindViewHolder(holder: ListSelectionViewHolder, position: Int) {
         holder.listPosition.text = (position + 1).toString()
-        holder.listTitle.text = lists.get(position).name
+        holder.listTitle.text = listTitles[position]
     }
 }

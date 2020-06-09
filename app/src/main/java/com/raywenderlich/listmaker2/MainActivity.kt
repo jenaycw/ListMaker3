@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -15,14 +16,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.intellij.lang.annotations.JdkConstants
 
 
+
 class MainActivity : AppCompatActivity() {
 lateinit var listsRecyclerView: RecyclerView
     val listDataManager : ListDataManager = ListDataManager(this)
     override fun onCreate(savedInstanceState: Bundle?) {
+        setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
         val lists = listDataManager.readLists()
         listsRecyclerView =
-            findViewById<RecyclerView>(R.id.lists_recyclerview)
+            findViewById(R.id.lists_recyclerview)
         listsRecyclerView.layoutManager = LinearLayoutManager(this)
         listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists)
 
@@ -50,6 +53,8 @@ lateinit var listsRecyclerView: RecyclerView
         val builder = AlertDialog.Builder(this)
         val listTitleEditText = EditText(this)
         listTitleEditText.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setTitle(dialogTitle)
+        builder.setView(listTitleEditText)
 
         builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
             val list = TaskList(listTitleEditText.text.toString())
