@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import kotlinx.android.synthetic.main.activity_main.*
 import org.intellij.lang.annotations.JdkConstants
@@ -18,8 +19,10 @@ import org.intellij.lang.annotations.JdkConstants
 
 
 class MainActivity : AppCompatActivity() {
-lateinit var listsRecyclerView: RecyclerView
-    val listDataManager : ListDataManager = ListDataManager(this)
+    lateinit var listsRecyclerView: RecyclerView
+    val listDataManager: ListDataManager = ListDataManager(this)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
@@ -30,7 +33,11 @@ lateinit var listsRecyclerView: RecyclerView
         listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists)
 
 
+        fab.setOnClickListener {
+            showCreateListDialog()
+        }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -47,6 +54,7 @@ lateinit var listsRecyclerView: RecyclerView
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     private fun showCreateListDialog() {
         val dialogTitle = getString(R.string.name_of_list)
         val positiveButtonTitle = getString(R.string.create_list)
@@ -57,13 +65,20 @@ lateinit var listsRecyclerView: RecyclerView
         builder.setView(listTitleEditText)
 
         builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
+            dialog.dismiss()
+
+
             val list = TaskList(listTitleEditText.text.toString())
             listDataManager.saveList(list)
             val recyclerAdapter = listsRecyclerView.adapter as ListSelectionRecyclerViewAdapter
-           recyclerAdapter.addList(list)
+            recyclerAdapter.addList(list)
 
-            dialog.dismiss()
-        }}
 
+        }
+
+
+        builder.create().show()
     }
+}
+
 

@@ -21,11 +21,13 @@ fun addList(list:TaskList){
     notifyItemInserted(lists.size-1)
 }
     override fun getItemCount(): Int {
-        return lists.size
+       // return listTitles.size
+        return listTitles.size
     }
 
     override fun onBindViewHolder(holder: ListSelectionViewHolder, position: Int) {
         holder.listPosition.text = (position + 1).toString()
-        holder.listTitle.text = listTitles[position]
+        //changed from holder.listTitle.text=listTitles[position]
+        holder.listTitle.text = listTitles.get(position)
     }
 }
